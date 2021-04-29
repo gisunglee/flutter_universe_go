@@ -3,6 +3,11 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_universe_go/constants.dart';
 import 'package:flutter_universe_go/data.dart';
 
+import 'constants.dart';
+import 'constants.dart';
+import 'constants.dart';
+import 'data.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,6 +20,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: gradientEndColor,
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [gradientStartColor, gradientEndColor],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.3, 0.7]
+          ),
+        ),
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,16 +66,21 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Image.asset('assets/drop_down_icon.png'),
                       ),
+                      underline: SizedBox(),
                     ),
                   ],
                 ),
               ),
               Container(
                 height: 500,
+                padding: const EdgeInsets.only(left: 32),
                 child: Swiper(
                   itemCount: planets.length,
                   itemWidth: MediaQuery.of(context).size.width -2 * 64 ,
                   layout: SwiperLayout.STACK,
+                  pagination: SwiperPagination(
+                    builder: DotSwiperPaginationBuilder(activeSize: 20, space: 8),
+                  ),
                   itemBuilder: (context, index){
                     return Stack(
                       children: <Widget>[
@@ -70,24 +88,64 @@ class _HomePageState extends State<HomePage> {
                           children: <Widget>[
                             SizedBox(height: 100),
                             Card(
+                              elevation: 8,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(32),
+                              ),
                               color: Colors.white,
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(height: 100,),
-                                  Text(
-                                    planets[index].name,
-                                    style: TextStyle(
-                                      fontFamily: 'Avenir',
-                                      fontSize: 44,
-                                      color: const Color(0xff47455f),
-                                      fontWeight: FontWeight.w900
+                              child: Padding(
+                                padding: const EdgeInsets.all(32.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(height: 100,),
+                                    Text(
+                                      planets[index].name,
+                                      style: TextStyle(
+                                        fontFamily: 'Avenir',
+                                        fontSize: 44,
+                                        color: const Color(0xff47455f),
+                                        fontWeight: FontWeight.w900
+                                      ),
+                                      textAlign: TextAlign.left,
                                     ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
+                                    Text(
+                                      'Solar System',
+                                      style: TextStyle(
+                                        fontFamily: 'Avenir',
+                                        fontSize: 23,
+                                        color: primaryTextColor,
+                                        fontWeight: FontWeight.w500
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    SizedBox(height: 32,),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Know more',
+                                          style: TextStyle(
+                                              fontFamily: 'Avenir',
+                                              fontSize: 18,
+                                              color: secondaryTextColor,
+                                              fontWeight: FontWeight.w500
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward,
+                                          color: secondaryTextColor,
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ],
+                        ),
+                        Image.asset(
+                          planets[index].iconImage
                         ),
                       ],
                     );
@@ -98,6 +156,30 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(36.0),
+          ),
+          color: navigationColor
+        ),
+        padding: const EdgeInsets.all(24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            IconButton(icon: Image.asset('assets/menu_icon.png'),
+                onPressed: (){},
+            ),
+            IconButton(icon: Image.asset('assets/search_icon.png'),
+                onPressed: (){},
+            ),
+            IconButton(icon: Image.asset('assets/profile_icon.png'),
+                onPressed: (){},
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
